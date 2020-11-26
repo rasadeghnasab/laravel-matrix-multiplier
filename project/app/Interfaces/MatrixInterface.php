@@ -17,4 +17,8 @@ interface MatrixInterface
     public function update(ValidMatrix $matrix): MatrixInterface;
 
     public function toArray(): array;
+
+    public function rowCount(): int;
+
+    public function columnCount(): int;
 }

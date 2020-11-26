@@ -3,8 +3,10 @@
 namespace App\Classes\MatrixOperators;
 
 use App\Classes\ValidMatrix;
+use App\Exceptions\ImpossibleMatrixMultiplyException;
 use App\Interfaces\MatrixInterface;
 use App\Interfaces\MatrixOperatorInterface;
+use function PHPUnit\Framework\throwException;
 
 class MatrixMultiplier implements MatrixOperatorInterface
 {
@@ -22,6 +24,8 @@ class MatrixMultiplier implements MatrixOperatorInterface
      */
     public function calculate(MatrixInterface $m1, MatrixInterface $m2): MatrixInterface
     {
+        $this->operationCanPerform($m1, $m2);
+
         $result = [];
 
         $m2_columns = $m2->columns();
@@ -42,5 +46,14 @@ class MatrixMultiplier implements MatrixOperatorInterface
         }
 
         return $sum;
+    }
+
+    private function operationCanPerform(MatrixInterface $m1, MatrixInterface $m2): void
+    {
+        if ($m1->columnCount() !== $m2->rowCount()) {
+            $message = sprintf("The second matrix must have %s rows.", $m1->columnCount());
+
+            throw new ImpossibleMatrixMultiplyException($message);
+        }
     }
 }

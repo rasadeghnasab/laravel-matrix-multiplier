@@ -16,18 +16,18 @@ class MatrixControllerTest extends TestCase
      * @test
      * @dataProvider multiplication_data
      *
-     * @param array $matrixA The first input matrix
-     * @param array $matrixB The second input matrix
+     * @param array $first_matrix
+     * @param array $second_matrix
      * @param int $status The HTTP status expected from call
      *                          response from call
      * @param array $expected
      * @return void
      */
-    public function matrix_multiplication(array $matrixA, array $matrixB, int $status, array $expected): void
+    public function matrix_multiplication(array $first_matrix, array $second_matrix, int $status, array $expected): void
     {
         $response = $this->json('POST', $this->uri, [
-            'firstMatrix' => $matrixA,
-            'secondMatrix' => $matrixB
+            'first_matrix' => $first_matrix,
+            'second_matrix' => $second_matrix
         ]);
 
         $response
@@ -55,7 +55,7 @@ class MatrixControllerTest extends TestCase
                 422,
                 [
                     'errors' => [
-                        "firstMatrix" => ["The first matrix is not a valid matrix."]
+                        "first_matrix" => ["The first matrix is not a valid matrix."]
                     ]
                 ]
             ],
@@ -71,7 +71,7 @@ class MatrixControllerTest extends TestCase
                 ],
                 422,
                 [
-                    'errors' => ["secondMatrix" => ["The second matrix is not a valid matrix."]]
+                    'errors' => ["second_matrix" => ["The second matrix is not a valid matrix."]]
                 ]
             ],
             'string numeric values Both matrices' => [
@@ -84,7 +84,7 @@ class MatrixControllerTest extends TestCase
                 ],
                 200,
                 [
-                    'data' => [['KS', 'GJ']]
+                    'data' => [['KJ', 'GJ']]
                 ]
             ],
             'nonnumeric values both matrices' => [
@@ -100,11 +100,11 @@ class MatrixControllerTest extends TestCase
                 422,
                 [
                     'errors' => [
-                        'firstMatrix' => [
+                        'first_matrix' => [
                             "The first matrix is not a valid matrix.",
                             "The first matrix must only contain integers(whole numbers).",
                         ],
-                        'secondMatrix' => [
+                        'second_matrix' => [
                             "The second matrix is not a valid matrix.",
                             "The second matrix must only contain integers(whole numbers)."
                         ]
@@ -124,7 +124,7 @@ class MatrixControllerTest extends TestCase
                 422,
                 [
                     'errors' => [
-                        'firstMatrix' => [
+                        'first_matrix' => [
                             "The first matrix is not a valid matrix.",
                             "The first matrix must only contain integers(whole numbers).",
                         ],
@@ -143,39 +143,56 @@ class MatrixControllerTest extends TestCase
                 422,
                 [
                     'errors' => [
-                        'secondMatrix' => ["The second matrix must contain 4 items."]
+                        'first_matrix' => ["The second matrix rows must be equal to the first matrix columns."]
                     ]
                 ]
             ],
-//            'small complete matrices' => [
-//                [
-//                    [8,12]
-//                ],
-//                [
-//                    [25, 18],
-//                    [8,4]
-//                ],
-//                200,
-//                [
-//                    'data' => [['KJ', 'GJ']]
-//                ]
-//            ],
-//            'medium complete matrices' => [
-//                [
-//                    [10,20,10,15],
-//                    [5,6,7,15]
-//                ],
-//                [
-//                    [2,4],
-//                    [6,8],
-//                    [10,12],
-//                    [16,18]
-//                ],
-//                200,
-//                [
-//                    'data' => [ ['RL', 'VR'], ['MR','PF']]
-//                ]
-//            ]
+            'small complete matrices' => [
+                [
+                    [8,12]
+                ],
+                [
+                    [25, 18],
+                    [8,4]
+                ],
+                200,
+                [
+                    'data' => [['KJ', 'GJ']]
+                ]
+            ],
+            'medium complete matrices' => [
+                [
+                    [10,20,10,15],
+                    [5,6,7,15]
+                ],
+                [
+                    [2,4],
+                    [6,8],
+                    [10,12],
+                    [16,18]
+                ],
+                200,
+                [
+                    'data' => [ ['RL', 'VR'], ['MR','PF']]
+                ]
+            ],
+            'big complete matrices' => [
+                [
+                    [10,20,10,15],
+                    [5,6,7,15],
+                    [30,16,17,35]
+                ],
+                [
+                    [2,4],
+                    [26,8],
+                    [10,12],
+                    [36,48]
+                ],
+                200,
+                [
+                    'data' => [ ['ASJ','AMZ'], ['ACV', 'AGN'], ['BUH', 'CCZ']],
+                ]
+            ]
         ];
     }
 }

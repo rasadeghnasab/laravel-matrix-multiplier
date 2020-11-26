@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Rules\MatrixNumeric;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MatrixMultiplicationRequest extends FormRequest
@@ -25,8 +24,23 @@ class MatrixMultiplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstMatrix' => ['is_valid_matrix', 'numeric_matrix'],
-            'secondMatrix' => ['is_valid_matrix', 'numeric_matrix'],
+            'first_matrix' => ['required', 'array', 'is_valid_matrix', 'numeric_matrix', 'can_multiply_to:second_matrix'],
+            'second_matrix' => ['required', 'array', 'is_valid_matrix', 'numeric_matrix'],
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'first_matrix.can_multiply_to' => trans('validation.can_multiply_to', [
+                'attribute' => 'first matrix',
+                'values' => 'second matrix'
+            ]),
         ];
     }
 }

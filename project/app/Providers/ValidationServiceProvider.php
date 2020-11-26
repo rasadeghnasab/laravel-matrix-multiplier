@@ -28,7 +28,7 @@ class ValidationServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('is_valid_matrix', sprintf('%s@passes', IsValidMatrix::class));
-        Validator::extend('can_multiply_to', sprintf('%s@passes', CanMultiplyTo::class));
         Validator::extend('numeric_matrix', sprintf('%s@passes', MatrixNumeric::class));
+        Validator::extend('can_multiply_to', CanMultiplyTo::class);
     }
 }
