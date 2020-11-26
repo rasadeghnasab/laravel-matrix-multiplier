@@ -2,6 +2,7 @@
 
 namespace App\Classes\MatrixOperators;
 
+use App\Classes\ValidMatrix;
 use App\Interfaces\MatrixInterface;
 use App\Interfaces\MatrixOperatorInterface;
 
@@ -30,7 +31,7 @@ class MatrixMultiplier implements MatrixOperatorInterface
             }
         }
 
-        return new $this->matrixInterface($result);
+        return new $this->matrixInterface(new ValidMatrix($result));
     }
 
     private function sum(array $m1, array $m2): int

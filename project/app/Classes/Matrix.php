@@ -2,8 +2,8 @@
 
 namespace App\Classes;
 
-use App\Exceptions\InvalidMatrixException;
 use App\Interfaces\MatrixInterface;
+use App\Classes\ValidMatrix;
 use Exception;
 
 class Matrix implements MatrixInterface
@@ -16,14 +16,11 @@ class Matrix implements MatrixInterface
 
     /**
      * Matrix constructor.
-     * @param array $matrix
-     * @throws InvalidMatrixException
+     * @param ValidMatrix $matrix
      */
-    public function __construct(array $matrix)
+    public function __construct(ValidMatrix $matrix)
     {
-        $this->checkMatrix($matrix);
-
-        $this->matrix = $matrix;
+        $this->matrix = $matrix->toArray();
     }
 
     /**
@@ -82,15 +79,12 @@ class Matrix implements MatrixInterface
 
     /**
      * A matrix can be updated by new values
-     * @param array $matrix
+     * @param ValidMatrix $matrix
      * @return $this
-     * @throws InvalidMatrixException
      */
-    public function update(array $matrix): self
+    public function update(ValidMatrix $matrix): self
     {
-        $this->checkMatrix($matrix);
-
-        $this->matrix = $matrix;
+        $this->matrix = $matrix->toArray();
 
         return $this;
     }
@@ -102,7 +96,7 @@ class Matrix implements MatrixInterface
 
     public function columnCount(): int
     {
-        return count($this->matrix[0]);
+        return count($this->row(0));
     }
 
     /**
@@ -113,10 +107,5 @@ class Matrix implements MatrixInterface
     public function toArray(): array
     {
         return $this->matrix;
-    }
-
-    private function checkMatrix($matrix)
-    {
-        if (empty($matrix)) throw new InvalidMatrixException('Matrix can not be empty');
     }
 }

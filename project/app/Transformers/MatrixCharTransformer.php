@@ -2,7 +2,7 @@
 
 namespace App\Transformers;
 
-use App\Classes\Matrix;
+use App\Classes\ValidMatrix;
 use App\Interfaces\MatrixInterface;
 use App\Interfaces\MatrixTransformerInterface;
 
@@ -18,7 +18,7 @@ class MatrixCharTransformer implements MatrixTransformerInterface
 
         array_walk_recursive($matrix_value, array(self::class, 'toChar'));
 
-        $matrix->update($matrix_value);
+        $matrix->update(new ValidMatrix($matrix_value));
 
         return $matrix;
     }

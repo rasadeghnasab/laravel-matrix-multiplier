@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Classes\Matrix;
+use App\Classes\ValidMatrix;
 use App\Exceptions\InvalidMatrixException;
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -11,45 +12,16 @@ class MatrixTest extends TestCase
 {
     /**
      * @test
-     *
-     * @return void
-     * @throws InvalidMatrixException
-     */
-    public function a_matrix_can_not_be_empty(): void
-    {
-        $this->expectException(InvalidMatrixException::class);
-        $this->expectExceptionMessage('Matrix can not be empty');
-
-        new Matrix([]);
-    }
-
-    /**
-     * @test
-     * @dataProvider sample_matrices
-     * @doesNotPerformAssertions
-     *
-     * @param array $array
-     * @return void
-     * @throws InvalidMatrixException
-     */
-    public function a_matrix_can_be_created_by_a_not_empty_array(array $array): void
-    {
-        new Matrix($array);
-    }
-
-    /**
-     * @test
      * @dataProvider sample_matrices
      *
-     * @param array $array
+     * @param array $data
      * @return void
-     * @throws InvalidMatrixException
      */
-    public function matrix_should_be_equal_to_the_passed_array(array $array): void
+    public function matrix_should_be_equal_to_the_passed_array(array $data): void
     {
-        $matrix = new Matrix($array);
+        $matrix = new Matrix(new ValidMatrix($data));
 
-        $this->assertEqualsCanonicalizing($array, $matrix->toArray());
+        $this->assertEqualsCanonicalizing($data, $matrix->toArray());
     }
 
     /**
@@ -61,7 +33,7 @@ class MatrixTest extends TestCase
      */
     public function matrix_could_be_presented_by_columns(array $data): void
     {
-        $matrix = new Matrix($data['matrix']);
+        $matrix = new Matrix(new ValidMatrix($data['matrix']));
 
         $this->assertEqualsCanonicalizing($data['expected'], $matrix->columns());
     }
@@ -75,7 +47,7 @@ class MatrixTest extends TestCase
      */
     public function we_can_get_a_column_separately(array $data): void
     {
-        $matrix = new Matrix($data['matrix']);
+        $matrix = new Matrix(new ValidMatrix($data['matrix']));
 
         $this->assertEqualsCanonicalizing($data['expected'], $matrix->column($data['column']));
     }
@@ -91,7 +63,7 @@ class MatrixTest extends TestCase
     {
         $this->expectException(Exception::class);
 
-        $matrix = new Matrix($data['matrix']);
+        $matrix = new Matrix(new ValidMatrix($data['matrix']));
 
         $matrix->column($data['column']);
     }
@@ -102,39 +74,20 @@ class MatrixTest extends TestCase
      */
     public function a_matrix_can_be_updated_by_new_values(): void
     {
-        $matrix = new Matrix([
+        $matrix = new Matrix(new ValidMatrix([
             [1, 1, 1],
             [2, 2, 2],
             [3, 3, 3],
-        ]);
+        ]));
 
         $expected = [
             [1, 2],
             [3, 4],
         ];
 
-        $matrix->update($expected);
+        $matrix->update(new ValidMatrix($expected));
 
         $this->assertEqualsCanonicalizing($expected, $matrix->toArray());
-    }
-
-    /**
-     * @test
-     */
-    public function matrix_can_not_be_updated_using_empty_array(): void
-    {
-        $this->expectException(InvalidMatrixException::class);
-        $this->expectExceptionMessage('Matrix can not be empty');
-
-        $matrix = new Matrix([
-            [1, 1, 1],
-            [2, 2, 2],
-            [3, 3, 3],
-        ]);
-
-        $expected = [];
-
-        $matrix->update($expected);
     }
 
     /**
@@ -143,10 +96,10 @@ class MatrixTest extends TestCase
      */
     public function we_can_get_a_row(): void
     {
-        $matrix = new Matrix([
+        $matrix = new Matrix(new ValidMatrix([
             [1, 2, 3, 4],
             [5, 6, 7, 8],
-        ]);
+        ]));
 
         $this->assertEquals([1, 2, 3, 4], $matrix->row(0));
         $this->assertEquals([5, 6, 7, 8], $matrix->row(1));
@@ -161,7 +114,7 @@ class MatrixTest extends TestCase
      */
     public function we_ca_get_a_matrix_row_count(array $data): void
     {
-        $matrix = new Matrix($data['matrix']);
+        $matrix = new Matrix(new ValidMatrix($data['matrix']));
 
         $this->assertEquals($data['rowCount'], $matrix->rowCount());
     }
@@ -175,7 +128,7 @@ class MatrixTest extends TestCase
      */
     public function we_ca_get_a_matrix_column_count(array $data): void
     {
-        $matrix = new Matrix($data['matrix']);
+        $matrix = new Matrix(new ValidMatrix($data['matrix']));
 
         $this->assertEquals($data['columnCount'], $matrix->columnCount());
     }
@@ -227,6 +180,7 @@ class MatrixTest extends TestCase
             ]
         ];
     }
+
     /**
      * @return array
      */
@@ -405,19 +359,24 @@ class MatrixTest extends TestCase
     {
         return [
             [
-                [1, 1, 1],
-                [1, 1, 1],
-                [1, 1, 1]
+                [
+                    [1, 1, 1],
+                    [1, 1, 1],
+                    [1, 1, 1]
+                ],
             ],
             [
-                [1]
+                [
+                    [1]
+                ],
             ],
             [
-                [1, 2, 3, 4],
-                [5, 6, 7, 8],
-                [9, 10, 11, 12],
-            ]
+                [
+                    [1, 2, 3, 4],
+                    [5, 6, 7, 8],
+                    [9, 10, 11, 12],
+                ],
+            ],
         ];
     }
-
 }

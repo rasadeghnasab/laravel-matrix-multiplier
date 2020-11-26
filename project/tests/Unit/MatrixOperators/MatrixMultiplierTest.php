@@ -4,6 +4,7 @@ namespace Tests\Unit\MatrixOperators;
 
 use App\Classes\Matrix;
 use App\Classes\MatrixOperators\MatrixMultiplier;
+use App\Classes\ValidMatrix;
 use App\Exceptions\InvalidMatrixException;
 use App\Interfaces\MatrixInterface;
 use PHPUnit\Framework\TestCase;
@@ -19,8 +20,8 @@ class MatrixMultiplierTest extends TestCase
      */
     public function we_can_multiply_two_matrices(array $data): void
     {
-        $m1 = new Matrix($data['m1']);
-        $m2 = new Matrix($data['m2']);
+        $m1 = new Matrix(new ValidMatrix($data['m1']));
+        $m2 = new Matrix(new ValidMatrix($data['m2']));
 
         $result = (new MatrixMultiplier(Matrix::class))->calculate($m1, $m2);
 
