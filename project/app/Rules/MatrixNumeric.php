@@ -42,6 +42,6 @@ class MatrixNumeric implements Rule
      */
     public function message(): string
     {
-        return "The :attribute must only contain integers(whole numbers).";
+        return trans('validation.numeric_matrix');
     }
 }

@@ -43,50 +43,37 @@ class MatrixControllerTest extends TestCase
     public function multiplication_data(): array
     {
         return [
-//            'unequal matrixA' => [
-//                [
-//                    [2,4],
-//                    [3,5,6]
-//                ],
-//                [
-//                    [5,6,7],
-//                    [4,3,6]
-//                ],
-//                422,
-//                [
-//                    'errors' => [
-//                        "firstMatrix" => ["The first matrix must not contain null or empty values."]]
-//                ]
-//            ],
-//            'unequal matrixB' => [
-//                [
-//                    [3,6,5],
-//                    [6,8,7]
-//                ],
-//                [
-//                    [1],
-//                    [4,6,7],
-//                    [5,7,8]
-//                ],
-//                422,
-//                [
-//                    'errors' => ["secondMatrix" => ["The second matrix must not contain null or empty values."]]
-//                ]
-//            ],
-//            'unequal row to col' => [
-//                [
-//                    [2,4,5,6]
-//                ],
-//                [
-//                    [2],
-//                    [5],
-//                    [7]
-//                ],
-//                422,
-//                [
-//                    'errors' => ['secondMatrix' => ["The second matrix must contain 4 items."]]
-//                ]
-//            ],
+            'unequal matrixA' => [
+                [
+                    [2, 4],
+                    [3, 5, 6]
+                ],
+                [
+                    [5, 6, 7],
+                    [4, 3, 6]
+                ],
+                422,
+                [
+                    'errors' => [
+                        "firstMatrix" => ["The first matrix is not a valid matrix."]
+                    ]
+                ]
+            ],
+            'unequal matrixB' => [
+                [
+                    [3, 6, 5],
+                    [6, 8, 7]
+                ],
+                [
+                    [1],
+                    [4, 6, 7],
+                    [5, 7, 8]
+                ],
+                422,
+                [
+                    'errors' => ["secondMatrix" => ["The second matrix is not a valid matrix."]]
+                ]
+            ],
             'string numeric values Both matrices' => [
                 [
                     ['8', 12]
@@ -113,26 +100,53 @@ class MatrixControllerTest extends TestCase
                 422,
                 [
                     'errors' => [
-                        'firstMatrix' => ["The first matrix must only contain integers(whole numbers)."],
-                        'secondMatrix' => ["The second matrix must only contain integers(whole numbers)."]
+                        'firstMatrix' => [
+                            "The first matrix is not a valid matrix.",
+                            "The first matrix must only contain integers(whole numbers).",
+                        ],
+                        'secondMatrix' => [
+                            "The second matrix is not a valid matrix.",
+                            "The second matrix must only contain integers(whole numbers)."
+                        ]
                     ]
                 ]
             ],
-//            'nonnumeric values MatrixA' => [
-//                [
-//                    [2, 5, 6, 'K']
-//                ],
-//                [
-//                    [5],
-//                    [6],
-//                    [8],
-//                    [9]
-//                ],
-//                422,
-//                [
-//                    'errors' => ['firstMatrix' => ["The first matrix must only contain integers(whole numbers)."]]
-//                ]
-//            ],
+            'nonnumeric values MatrixA' => [
+                [
+                    [2, 5, 6, 'K']
+                ],
+                [
+                    [5],
+                    [6],
+                    [8],
+                    [9]
+                ],
+                422,
+                [
+                    'errors' => [
+                        'firstMatrix' => [
+                            "The first matrix is not a valid matrix.",
+                            "The first matrix must only contain integers(whole numbers).",
+                        ],
+                    ]
+                ]
+            ],
+            'unequal row to col' => [
+                [
+                    [2, 4, 5, 6]
+                ],
+                [
+                    [2],
+                    [5],
+                    [7]
+                ],
+                422,
+                [
+                    'errors' => [
+                        'secondMatrix' => ["The second matrix must contain 4 items."]
+                    ]
+                ]
+            ],
 //            'small complete matrices' => [
 //                [
 //                    [8,12]

@@ -25,8 +25,8 @@ class MatrixMultiplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'firstMatrix' => [new MatrixNumeric],
-            'secondMatrix' => [new MatrixNumeric],
+            'firstMatrix' => ['is_valid_matrix', 'numeric_matrix'],
+            'secondMatrix' => ['is_valid_matrix', 'numeric_matrix'],
         ];
     }
 }
