@@ -95,6 +95,16 @@ class Matrix implements MatrixInterface
         return $this;
     }
 
+    public function rowCount(): int
+    {
+        return count($this->matrix);
+    }
+
+    public function columnCount(): int
+    {
+        return count($this->matrix[0]);
+    }
+
     /**
      * Returns matrix as an array
      *

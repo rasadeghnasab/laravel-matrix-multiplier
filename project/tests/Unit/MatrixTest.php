@@ -100,7 +100,7 @@ class MatrixTest extends TestCase
      * @test
      * @throws EmptyMatrixException
      */
-    public function a_matrix_can_be_updated_by_new_values()
+    public function a_matrix_can_be_updated_by_new_values(): void
     {
         $matrix = new Matrix([
             [1, 1, 1],
@@ -121,7 +121,7 @@ class MatrixTest extends TestCase
     /**
      * @test
      */
-    public function matrix_can_not_be_updated_using_empty_array()
+    public function matrix_can_not_be_updated_using_empty_array(): void
     {
         $this->expectException(EmptyMatrixException::class);
         $this->expectExceptionMessage('Matrix can not be empty');
@@ -152,6 +152,82 @@ class MatrixTest extends TestCase
         $this->assertEquals([5, 6, 7, 8], $matrix->row(1));
     }
 
+    /**
+     * @test
+     * @dataProvider row_and_column_count
+     *
+     * @param array $data
+     * @throws EmptyMatrixException
+     */
+    public function we_ca_get_a_matrix_row_count(array $data): void
+    {
+        $matrix = new Matrix($data['matrix']);
+
+        $this->assertEquals($data['rowCount'], $matrix->rowCount());
+    }
+
+    /**
+     * @test
+     * @dataProvider row_and_column_count
+     *
+     * @param array $data
+     * @throws EmptyMatrixException
+     */
+    public function we_ca_get_a_matrix_column_count(array $data): void
+    {
+        $matrix = new Matrix($data['matrix']);
+
+        $this->assertEquals($data['columnCount'], $matrix->columnCount());
+    }
+
+
+    /**
+     * Data providers
+     */
+
+    public function row_and_column_count(): array
+    {
+        return [
+            [
+                [
+                    'matrix' => [
+                        [1],
+                        [1],
+                        [1],
+                        [1],
+                    ],
+                    'rowCount' => 4,
+                    'columnCount' => 1
+                ],
+                [
+                    'matrix' => [
+                        [1, 2, 3, 4],
+                    ],
+                    'rowCount' => 1,
+                    'columnCount' => 4
+                ],
+                [
+                    'matrix' => [
+                        [1, 2, 3],
+                        [2, 3, 4],
+                        [4, 5, 6],
+                    ],
+                    'rowCount' => 3,
+                    'columnCount' => 3
+                ],
+                [
+                    'matrix' => [
+                        [1, 2, 3],
+                        [2, 3, 4],
+                        [4, 5, 6],
+                        [6, 7, 8]
+                    ],
+                    'rowCount' => 4,
+                    'columnCount' => 3
+                ],
+            ]
+        ];
+    }
     /**
      * @return array
      */
