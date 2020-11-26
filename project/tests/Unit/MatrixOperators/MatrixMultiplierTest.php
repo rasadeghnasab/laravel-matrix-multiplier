@@ -29,6 +29,10 @@ class MatrixMultiplierTest extends TestCase
         $this->assertEqualsCanonicalizing($data['expected'], $result->toArray());
     }
 
+    /**
+     * Data providers
+     */
+
     public function matrices_to_multiply()
     {
         return [

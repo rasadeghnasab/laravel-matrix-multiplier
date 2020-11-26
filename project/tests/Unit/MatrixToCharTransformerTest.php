@@ -26,6 +26,6 @@ class MatrixToCharTransformerTest extends TestCase
             ['Z', 'AA', 'AB']
         ];
 
-        $this->assertEqualsCanonicalizing($expected, $char_matrix->toArray());
+        $this->assertEqualsCanonicalizing($expected, $char_matrix);
     }
 }

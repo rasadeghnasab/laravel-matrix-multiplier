@@ -47,24 +47,31 @@ class ValidMatrixTest extends TestCase
     public function valid_matrices(): array
     {
         return [
-            [
+            'simple_matrix' => [
                 [
                     [1, 1, 1],
                     [1, 1, 1],
                     [1, 1, 1]
                 ],
             ],
-            [
+            'one_row_column_matrix' => [
                 [
                     [1],
                 ],
             ],
-            [
+            'big_complicated_matrix' => [
                 [
                     [1, 2, 3, 4],
                     [5, 6, 7, 8],
                     [9, 10, 11, 12],
                 ],
+            ],
+            'matrix_with_numeric_strings' => [
+                [
+                    [1, 2, '3'],
+                    ['1', '2', '3'],
+                    ['1', 2, '3'],
+                ]
             ]
         ];
     }
@@ -75,29 +82,42 @@ class ValidMatrixTest extends TestCase
     public function invalid_matrices_data(): array
     {
         return [
-            [
+            'invalid_second_row' => [
                 [
                     [1, 2],
                     [1, 2, 3],
                     [1, 2],
                     [1, 2],
-                ],
-                [],
+                ]
+            ],
+            'empty_matrix' => [
+                []
+            ],
+            'complex_invalid_rows' => [
                 [
                     [1, 2, 3],
                     [],
                     [1,]
-                ],
+                ]
+            ],
+            'multiple_invalid_rows' => [
                 [
                     [1],
                     [1, 2],
                     [1, 2, 3],
-                ],
+                ]
+            ],
+            'has_a_non_array_row' => [
                 [
                     [1, 2],
                     [1, 2],
                     1,
-                ],
+                ]
+            ],
+            'has_a_character_item' => [
+                [
+                    ['a']
+                ]
             ],
         ];
     }

@@ -41,6 +41,12 @@ class ValidMatrix
             if ($current_column_count != $prev_column_count) {
                 return false;
             }
+
+            foreach ($row as $column) {
+                if (!is_numeric($column)) {
+                    return false;
+                }
+            }
             $prev_column_count = $current_column_count;
         }
 

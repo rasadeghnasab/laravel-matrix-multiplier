@@ -4,5 +4,5 @@ namespace App\Interfaces;
 
 interface MatrixTransformerInterface
 {
-    public static function transform(MatrixInterface $matrix): MatrixInterface;
+    public static function transform(MatrixInterface $matrix): array;
 }

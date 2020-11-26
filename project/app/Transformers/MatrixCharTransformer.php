@@ -2,7 +2,6 @@
 
 namespace App\Transformers;
 
-use App\Classes\ValidMatrix;
 use App\Interfaces\MatrixInterface;
 use App\Interfaces\MatrixTransformerInterface;
 
@@ -10,17 +9,15 @@ class MatrixCharTransformer implements MatrixTransformerInterface
 {
     /**
      * @param MatrixInterface $matrix
-     * @return MatrixInterface
+     * @return array
      */
-    public static function transform(MatrixInterface $matrix): MatrixInterface
+    public static function transform(MatrixInterface $matrix): array
     {
         $matrix_value = $matrix->toArray();
 
         array_walk_recursive($matrix_value, array(self::class, 'toChar'));
 
-        $matrix->update(new ValidMatrix($matrix_value));
-
-        return $matrix;
+        return $matrix_value;
     }
 
     private static function toChar(int &$number): void
