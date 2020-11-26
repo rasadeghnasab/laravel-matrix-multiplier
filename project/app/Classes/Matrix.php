@@ -3,9 +3,10 @@
 namespace App\Classes;
 
 use App\Exceptions\EmptyMatrixException;
+use App\Interfaces\MatrixInterface;
 use Exception;
 
-class Matrix
+class Matrix implements MatrixInterface
 {
     /**
      * @var array

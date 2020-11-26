@@ -10,7 +10,6 @@ class MatrixOperator
         $total = count($m1);
 
         foreach ($m1 as $key => $current_row) {
-            foreach($m2[0] as $)
             for ($i = 0; $i < $total; $i++) {
                 $current_column = $this->arrayShiftKey($m2, $i);
                 $cell_sum = $this->calcSum($current_row, $current_column);

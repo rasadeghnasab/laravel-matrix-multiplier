@@ -98,7 +98,7 @@ class MatrixTest extends TestCase
 
     /**
      * @test
-     * @throws EmptyMatrixException
+     * @throws Exception|EmptyMatrixException
      */
     public function we_can_get_a_row(): void
     {
