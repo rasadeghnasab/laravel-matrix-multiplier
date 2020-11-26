@@ -1,9 +1,8 @@
 <?php
 
-
 namespace App\Interfaces;
 
 interface MatrixTransformerInterface
 {
-    public static function transformer();
+    public static function transform(MatrixInterface $matrix): MatrixInterface;
 }

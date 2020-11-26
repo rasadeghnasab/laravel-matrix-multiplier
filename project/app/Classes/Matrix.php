@@ -21,9 +21,7 @@ class Matrix implements MatrixInterface
      */
     public function __construct(array $matrix)
     {
-        if (empty($matrix)) {
-            throw new EmptyMatrixException('Matrix can not be empty');
-        }
+        $this->checkMatrix($matrix);
 
         $this->matrix = $matrix;
     }
@@ -83,6 +81,21 @@ class Matrix implements MatrixInterface
     }
 
     /**
+     * A matrix can be updated by new values
+     * @param array $matrix
+     * @return $this
+     * @throws EmptyMatrixException
+     */
+    public function update(array $matrix): self
+    {
+        $this->checkMatrix($matrix);
+
+        $this->matrix = $matrix;
+
+        return $this;
+    }
+
+    /**
      * Returns matrix as an array
      *
      * @return array
@@ -90,5 +103,10 @@ class Matrix implements MatrixInterface
     public function toArray(): array
     {
         return $this->matrix;
+    }
+
+    private function checkMatrix($matrix)
+    {
+        if (empty($matrix)) throw new EmptyMatrixException('Matrix can not be empty');
     }
 }

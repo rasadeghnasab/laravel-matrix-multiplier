@@ -98,6 +98,47 @@ class MatrixTest extends TestCase
 
     /**
      * @test
+     * @throws EmptyMatrixException
+     */
+    public function a_matrix_can_be_updated_by_new_values()
+    {
+        $matrix = new Matrix([
+            [1, 1, 1],
+            [2, 2, 2],
+            [3, 3, 3],
+        ]);
+
+        $expected = [
+            [1, 2],
+            [3, 4],
+        ];
+
+        $matrix->update($expected);
+
+        $this->assertEqualsCanonicalizing($expected, $matrix->toArray());
+    }
+
+    /**
+     * @test
+     */
+    public function matrix_can_not_be_updated_using_empty_array()
+    {
+        $this->expectException(EmptyMatrixException::class);
+        $this->expectExceptionMessage('Matrix can not be empty');
+
+        $matrix = new Matrix([
+            [1, 1, 1],
+            [2, 2, 2],
+            [3, 3, 3],
+        ]);
+
+        $expected = [];
+
+        $matrix->update($expected);
+    }
+
+    /**
+     * @test
      * @throws Exception|EmptyMatrixException
      */
     public function we_can_get_a_row(): void
