@@ -2,7 +2,7 @@
 
 namespace App\Classes;
 
-use App\Exceptions\EmptyMatrixException;
+use App\Exceptions\InvalidMatrixException;
 use App\Interfaces\MatrixInterface;
 use Exception;
 
@@ -17,7 +17,7 @@ class Matrix implements MatrixInterface
     /**
      * Matrix constructor.
      * @param array $matrix
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function __construct(array $matrix)
     {
@@ -84,7 +84,7 @@ class Matrix implements MatrixInterface
      * A matrix can be updated by new values
      * @param array $matrix
      * @return $this
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function update(array $matrix): self
     {
@@ -117,6 +117,6 @@ class Matrix implements MatrixInterface
 
     private function checkMatrix($matrix)
     {
-        if (empty($matrix)) throw new EmptyMatrixException('Matrix can not be empty');
+        if (empty($matrix)) throw new InvalidMatrixException('Matrix can not be empty');
     }
 }

@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use App\Classes\Matrix;
-use App\Exceptions\EmptyMatrixException;
+use App\Exceptions\InvalidMatrixException;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
@@ -13,11 +13,11 @@ class MatrixTest extends TestCase
      * @test
      *
      * @return void
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function a_matrix_can_not_be_empty(): void
     {
-        $this->expectException(EmptyMatrixException::class);
+        $this->expectException(InvalidMatrixException::class);
         $this->expectExceptionMessage('Matrix can not be empty');
 
         new Matrix([]);
@@ -30,7 +30,7 @@ class MatrixTest extends TestCase
      *
      * @param array $array
      * @return void
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function a_matrix_can_be_created_by_a_not_empty_array(array $array): void
     {
@@ -43,7 +43,7 @@ class MatrixTest extends TestCase
      *
      * @param array $array
      * @return void
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function matrix_should_be_equal_to_the_passed_array(array $array): void
     {
@@ -57,7 +57,7 @@ class MatrixTest extends TestCase
      * @dataProvider matrix_to_columns
      *
      * @param array $data
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function matrix_could_be_presented_by_columns(array $data): void
     {
@@ -71,7 +71,7 @@ class MatrixTest extends TestCase
      * @dataProvider get_a_specific_column
      *
      * @param array $data
-     * @throws Exception|EmptyMatrixException
+     * @throws Exception|InvalidMatrixException
      */
     public function we_can_get_a_column_separately(array $data): void
     {
@@ -85,7 +85,7 @@ class MatrixTest extends TestCase
      * @dataProvider unexpected_column
      *
      * @param array $data
-     * @throws Exception|EmptyMatrixException
+     * @throws Exception|InvalidMatrixException
      */
     public function throw_exception_if_column_does_not_exist(array $data): void
     {
@@ -98,7 +98,7 @@ class MatrixTest extends TestCase
 
     /**
      * @test
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function a_matrix_can_be_updated_by_new_values(): void
     {
@@ -123,7 +123,7 @@ class MatrixTest extends TestCase
      */
     public function matrix_can_not_be_updated_using_empty_array(): void
     {
-        $this->expectException(EmptyMatrixException::class);
+        $this->expectException(InvalidMatrixException::class);
         $this->expectExceptionMessage('Matrix can not be empty');
 
         $matrix = new Matrix([
@@ -139,7 +139,7 @@ class MatrixTest extends TestCase
 
     /**
      * @test
-     * @throws Exception|EmptyMatrixException
+     * @throws Exception|InvalidMatrixException
      */
     public function we_can_get_a_row(): void
     {
@@ -157,7 +157,7 @@ class MatrixTest extends TestCase
      * @dataProvider row_and_column_count
      *
      * @param array $data
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function we_ca_get_a_matrix_row_count(array $data): void
     {
@@ -171,7 +171,7 @@ class MatrixTest extends TestCase
      * @dataProvider row_and_column_count
      *
      * @param array $data
-     * @throws EmptyMatrixException
+     * @throws InvalidMatrixException
      */
     public function we_ca_get_a_matrix_column_count(array $data): void
     {
@@ -179,7 +179,6 @@ class MatrixTest extends TestCase
 
         $this->assertEquals($data['columnCount'], $matrix->columnCount());
     }
-
 
     /**
      * Data providers

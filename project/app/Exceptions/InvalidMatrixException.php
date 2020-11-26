@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class EmptyMatrixException extends Exception
+class InvalidMatrixException extends Exception
 {
     //
 }
