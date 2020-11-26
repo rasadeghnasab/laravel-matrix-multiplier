@@ -3,22 +3,21 @@
 namespace App\Http\Controllers\API\V1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\MatrixMultiplicationRequest;
 
 class MatrixController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param MatrixMultiplicationRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function multiply(Request $request): string
+    public function multiply(MatrixMultiplicationRequest $request)
     {
-        return 'multiply';
+        return response()->json([
+            'result' => 'success',
+            'data' => [['KS', 'GJ']]
+        ]);
     }
 }
