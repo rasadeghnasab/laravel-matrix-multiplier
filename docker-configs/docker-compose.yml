@@ -49,7 +49,7 @@ services:
     volumes:
       - ../:/var/www/html
     working_dir: /var/www/html/project
-    entrypoint: ['npm']
+    entrypoint: [ 'npm' ]
 
   artisan:
     build:
@@ -62,7 +62,7 @@ services:
     volumes:
       - ../:/var/www/html
     working_dir: /var/www/html/project
-    entrypoint: ['php', 'artisan']
+    entrypoint: [ 'php', 'artisan' ]
     networks:
       - laravel
 
