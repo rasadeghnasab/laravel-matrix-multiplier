@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Transformers;
 
-use App\Interfaces\MatrixInterface;
-use App\Interfaces\MatrixTransformerInterface;
+use App\Interfaces\{MatrixInterface, MatrixTransformerInterface};
 
 class MatrixCharTransformer implements MatrixTransformerInterface
 {
@@ -28,7 +27,7 @@ class MatrixCharTransformer implements MatrixTransformerInterface
 
         $len = $ordZ - $ordA + 1;
         $output = "";
-        while($number >= 0) {
+        while ($number >= 0) {
             $output = chr($number % $len + $ordA) . $output;
             $number = floor($number / $len) - 1;
         }

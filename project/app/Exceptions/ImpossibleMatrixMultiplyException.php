@@ -16,11 +16,13 @@ class ImpossibleMatrixMultiplyException extends Exception
     public function render(Request $request, self $exception)
     {
         return response()
-            ->json([
-                'errors' => [
-                    $exception->getMessage(),
-                ],
-            ])
+            ->json(
+                [
+                    'errors' => [
+                        $exception->getMessage(),
+                    ],
+                ]
+            )
             ->setStatusCode(422);
     }
 }

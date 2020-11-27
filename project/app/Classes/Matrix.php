@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Classes;
 
 use App\Interfaces\MatrixInterface;
-use App\Classes\ValidMatrix;
 use Exception;
 
 class Matrix implements MatrixInterface
@@ -21,6 +20,24 @@ class Matrix implements MatrixInterface
     public function __construct(ValidMatrix $matrix)
     {
         $this->matrix = $matrix->toArray();
+    }
+
+    /**
+     * Returns a specific column from the matrix
+     *
+     * @param int $column_index
+     * @return array
+     * @throws Exception
+     */
+    public function column(int $column_index): array
+    {
+        $columns = $this->columns();
+
+        if (!isset($columns[$column_index])) {
+            throw new Exception(sprintf('The matrix has exactly %d columns.', count($this->columns)));
+        }
+
+        return $columns[$column_index];
     }
 
     /**
@@ -45,39 +62,6 @@ class Matrix implements MatrixInterface
     }
 
     /**
-     * Returns a specific row from the matrix
-     *
-     * @param int $row_index
-     * @return array
-     * @throws Exception
-     */
-    public function row(int $row_index): array
-    {
-        if (!isset($this->matrix[$row_index])) {
-            throw new Exception(sprintf('The matrix has exactly %d rows.', count($this->matrix)));
-        }
-        return $this->matrix[$row_index];
-    }
-
-    /**
-     * Returns a specific column from the matrix
-     *
-     * @param int $column_index
-     * @return array
-     * @throws Exception
-     */
-    public function column(int $column_index): array
-    {
-        $columns = $this->columns();
-
-        if (!isset($columns[$column_index])) {
-            throw new Exception(sprintf('The matrix has exactly %d columns.', count($this->columns)));
-        }
-
-        return $columns[$column_index];
-    }
-
-    /**
      * A matrix can be updated by new values
      * @param ValidMatrix $matrix
      * @return $this
@@ -97,6 +81,22 @@ class Matrix implements MatrixInterface
     public function columnCount(): int
     {
         return count($this->row(0));
+    }
+
+    /**
+     * Returns a specific row from the matrix
+     *
+     * @param int $row_index
+     * @return array
+     * @throws Exception
+     */
+    public function row(int $row_index): array
+    {
+        if (!isset($this->matrix[$row_index])) {
+            $message = sprintf('The matrix has exactly %d rows.', count($this->matrix));
+            throw new Exception($message);
+        }
+        return $this->matrix[$row_index];
     }
 
     /**

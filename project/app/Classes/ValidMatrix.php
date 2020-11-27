@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Classes;
 
@@ -15,14 +15,6 @@ class ValidMatrix
         }
 
         $this->matrix = $matrix;
-    }
-
-    /**
-     * @return array
-     */
-    public function toArray()
-    {
-        return $this->matrix;
     }
 
     public function validate(array $matrix): bool
@@ -51,6 +43,14 @@ class ValidMatrix
         }
 
         return true;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->matrix;
     }
 }
 

@@ -24,7 +24,13 @@ class MatrixMultiplicationRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_matrix' => ['required', 'array', 'is_valid_matrix', 'numeric_matrix', 'can_multiply_to:second_matrix'],
+            'first_matrix' => [
+                'required',
+                'array',
+                'is_valid_matrix',
+                'numeric_matrix',
+                'can_multiply_to:second_matrix'
+            ],
             'second_matrix' => ['required', 'array', 'is_valid_matrix', 'numeric_matrix'],
         ];
     }
@@ -37,10 +43,13 @@ class MatrixMultiplicationRequest extends FormRequest
     public function messages()
     {
         return [
-            'first_matrix.can_multiply_to' => trans('validation.can_multiply_to', [
-                'attribute' => 'first matrix',
-                'values' => 'second matrix'
-            ]),
+            'first_matrix.can_multiply_to' => trans(
+                'validation.can_multiply_to',
+                [
+                    'attribute' => 'first matrix',
+                    'values' => 'second matrix'
+                ]
+            ),
         ];
     }
 }

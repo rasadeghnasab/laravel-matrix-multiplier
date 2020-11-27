@@ -1,9 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Rules;
 
-use App\Classes\Matrix;
-use App\Classes\ValidMatrix;
+use App\Classes\{Matrix, ValidMatrix};
 use App\Exceptions\InvalidMatrixException;
 use Illuminate\Contracts\Validation\Rule;
 
@@ -12,6 +11,21 @@ class CanMultiplyTo implements Rule
     protected $validator;
     protected $parameters;
     private $column_count;
+
+    /**
+     * @param $attribute
+     * @param $value
+     * @param $parameters
+     * @param $validator
+     * @return bool
+     */
+    public function validate($attribute, $value, $parameters, $validator)
+    {
+        $this->validator = $validator;
+        $this->parameters = array_shift($parameters);
+
+        return $this->passes($attribute, $value);
+    }
 
     /**
      * Determine if the validation rule passes.
@@ -29,28 +43,13 @@ class CanMultiplyTo implements Rule
         try {
             $first_matrix = new Matrix(new ValidMatrix($value));
             $second_matrix = new Matrix(new ValidMatrix($other_matrix));
-        } catch (InvalidMatrixException $e) {
+        } catch (InvalidMatrixException $exception) {
             return false;
         }
 
         $this->column_count = $first_matrix->columnCount();
 
         return $this->column_count === $second_matrix->rowCount();
-    }
-
-    /**
-     * @param $attribute
-     * @param $value
-     * @param $parameters
-     * @param $validator
-     * @return bool
-     */
-    public function validate($attribute, $value, $parameters, $validator)
-    {
-        $this->validator = $validator;
-        $this->parameters = array_shift($parameters);
-
-        return $this->passes($attribute, $value);
     }
 
     /**

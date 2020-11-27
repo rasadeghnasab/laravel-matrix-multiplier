@@ -13,11 +13,13 @@ class InvalidMatrixException extends Exception
     public function render()
     {
         return response()
-            ->json([
-                'errors' => [
-                    'Your matrix value is invalid.'
-                ],
-            ])
+            ->json(
+                [
+                    'errors' => [
+                        'Your matrix value is invalid.'
+                    ],
+                ]
+            )
             ->setStatusCode(422);
     }
 }

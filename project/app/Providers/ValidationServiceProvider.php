@@ -1,12 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Providers;
 
-use App\Rules\CanMultiplyTo;
-use App\Rules\IsValidMatrix;
-use App\Rules\MatrixNumeric;
-use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
+use App\Rules\{CanMultiplyTo, IsValidMatrix, MatrixNumeric};
+use Illuminate\Support\{Facades\Validator, ServiceProvider};
 
 class ValidationServiceProvider extends ServiceProvider
 {

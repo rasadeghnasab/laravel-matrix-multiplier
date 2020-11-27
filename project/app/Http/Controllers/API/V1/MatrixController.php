@@ -26,8 +26,10 @@ class MatrixController extends Controller
 
         $char_matrix = MatrixCharTransformer::transform($result_matrix);
 
-        return response()->json([
-            'data' => $char_matrix
-        ]);
+        return response()->json(
+            [
+                'data' => $char_matrix
+            ]
+        );
     }
 }
