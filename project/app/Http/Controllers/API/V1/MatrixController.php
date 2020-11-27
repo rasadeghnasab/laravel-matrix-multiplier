@@ -2,23 +2,34 @@
 
 namespace App\Http\Controllers\API\V1;
 
+use App\Classes\Matrix;
+use App\Classes\MatrixOperators\MatrixMultiplier;
+use App\Classes\ValidMatrix;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Http\Requests\MatrixMultiplicationRequest;
+use App\Transformers\MatrixCharTransformer;
 
 class MatrixController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
-
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param MatrixMultiplicationRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function multiply(Request $request): string
+    public function multiply(MatrixMultiplicationRequest $request)
     {
-        return 'multiply';
+        $first_matrix = new Matrix(new ValidMatrix($request->get('first_matrix')));
+        $second_matrix = new Matrix(new ValidMatrix($request->get('second_matrix')));
+
+        $result_matrix = (new MatrixMultiplier(Matrix::class))->calculate($first_matrix, $second_matrix);
+
+        $char_matrix = MatrixCharTransformer::transform($result_matrix);
+
+        return response()->json(
+            [
+                'data' => $char_matrix
+            ]
+        );
     }
 }

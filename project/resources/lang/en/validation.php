@@ -118,6 +118,9 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'numeric_matrix' => 'The :attribute must only contain integers(whole numbers).',
+    'is_valid_matrix' => 'The :attribute is not a valid matrix.',
+    'can_multiply_to' => 'The :values rows must be equal to the :attribute columns.',
 
     /*
     |--------------------------------------------------------------------------
