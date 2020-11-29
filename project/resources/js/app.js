@@ -1,11 +1,12 @@
-import Vue from 'vue'
+import Vue from 'vue';
+import router from './router';
+
 require('./bootstrap');
 
-//Main pages
-import App from './views/app.vue'
+// Import the styles directly. (Or you could add them via script tags.)
+import 'bootstrap/dist/css/bootstrap.css';
 
-
-const app = new Vue({
+new Vue({
     el: '#app',
-    components: { App }
+    router
 });
