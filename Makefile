@@ -19,3 +19,6 @@ develop-front:
 
 build-front:
 	$(COMPOSE) run --rm npm run prod
+
+down:
+	$(COMPOSE) down
