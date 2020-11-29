@@ -42,12 +42,12 @@ class MatrixToCharTransformerTest extends TestCase
             ],
             'non included' => [
                 [
-                    [1, 2, -1,],
+                    [1, 2, -1],
                     [26, 0, 28],
                 ],
                 [
-                    ['A', 'B', 'non'],
-                    ['Z', 'non', 'AB']
+                    ['A', 'B', 'non (-1)'],
+                    ['Z', 'non (0)', 'AB']
                 ],
             ]
         ];
