@@ -2135,12 +2135,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Matrix__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../components/Matrix */ "./resources/js/components/Matrix.vue");
 
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2183,58 +2187,81 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       matrices: {},
       columnSize: 6,
       resultMatrix: [],
-      errorBag: []
+      errorBag: [],
+      loading: false
     };
   },
   methods: {
     updateMatrices: function updateMatrices(name, value) {
       this.matrices[name] = value;
     },
-    validate: function validate() {// check if we can do the calculation?
+    validate: function validate() {// Note: I don't a write front-end validator,
+      // so that you can fill free to send non-validated requests to the server
     },
     calculate: function calculate() {
       var _this = this;
 
-      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
         var data, vi;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
-                console.log('send request...');
+                if (!_this.loading) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt("return", false);
+
+              case 2:
                 _this.errorBag = _this.resultMatrix = [];
-                data = _this.matrices; // `vue instance`
+                data = _this.matrices; // copy `vue instance` in order to have access to it in the axios
 
                 vi = _this;
-                _context.next = 6;
-                return axios.post('http://localhost/api/v1/matrix/multiply', data).then(function (_ref) {
-                  var data = _ref.data;
-                  console.log(data);
-                  console.log(_typeof(data));
-                  vi.resultMatrix = data.data;
-                })["catch"](function (_ref2) {
-                  var response = _ref2.response;
-                  var errorBag = [];
-                  console.log(response.data);
+                _this.loading = true; // Note: I put this setTimeout here to simulate the network latency.
 
-                  _.each(response.data.errors, function (error) {
-                    if (_.isArray(error)) {
-                      errorBag = errorBag.concat(error);
-                      return true;
+                setTimeout( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+                  return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                    while (1) {
+                      switch (_context.prev = _context.next) {
+                        case 0:
+                          _context.next = 2;
+                          return axios.post('/matrix/multiply', data).then(function (_ref2) {
+                            var data = _ref2.data;
+                            vi.resultMatrix = data.data;
+                          })["catch"](function (_ref3) {
+                            var response = _ref3.response;
+                            var errorBag = [];
+
+                            _.each(response.data.errors, function (error) {
+                              if (_.isArray(error)) {
+                                errorBag = errorBag.concat(error);
+                                return true;
+                              }
+
+                              errorBag.push(error);
+                            });
+
+                            vi.errorBag = errorBag;
+                          })["finally"](function () {
+                            vi.loading = false;
+                          });
+
+                        case 2:
+                        case "end":
+                          return _context.stop();
+                      }
                     }
+                  }, _callee);
+                })), 1000);
 
-                    errorBag.push(error);
-                  });
-
-                  vi.errorBag = errorBag;
-                });
-
-              case 6:
+              case 7:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee);
+        }, _callee2);
       }))();
     }
   }
@@ -2321,6 +2348,25 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.matrix-cell input {\n    min-width: 40px;\n    max-width: 40px;\n    min-height: 40px;\n    max-height: 40px;\n}\n\n/* Chrome, Safari, Edge, Opera */\n.matrix-cell input::-webkit-outer-spin-button,\n.matrix-cell input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n}\n\n/* Firefox */\n.matrix-cell input[type=number] {\n    -moz-appearance: textfield;\n}\n.paren {\n    display: inline-block;\n    padding: 0 .1em;\n    vertical-align: bottom;\n    -webkit-transform-origin: bottom;\n    -moz-transform-origin: bottom;\n    -ms-transform-origin: bottom;\n    -o-transform-origin: bottom;\n    transform-origin: bottom;\n}\n.dimension-controller input {\n    max-width: 80px;\n    max-height: 50px;\n    font-size: 18px;\n}\n.dimension-controller > .row > div {\n    padding: 0 10px;\n}\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.loading-container {\n    position: relative;\n}\n.loading-modal {\n    position: absolute;\n    top: 0;\n    left: 0;\n    text-align: center;\n    background-color: rgba(0, 0, 0, 0.8);\n}\n", ""]);
 
 // exports
 
@@ -20761,6 +20807,36 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css&":
+/*!*************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css& ***!
+  \*************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./MatrixMultiplication.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -21676,86 +21752,101 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("div", { staticClass: "mt-5 container-lg container-md" }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "div",
-          { staticClass: "col-sm col-md mb-2 p-0" },
-          [
-            _c("MatrixInput", {
-              attrs: { name: "first matrix" },
-              on: { matricesUpdated: _vm.updateMatrices }
-            })
-          ],
-          1
-        ),
+  return _c("div", { staticClass: "matrix-multiplication" }, [
+    _c(
+      "div",
+      { staticClass: "mt-5 container-lg container-md loading-container" },
+      [
+        _vm._m(0),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "col-sm col-md mb-2 p-0" },
-          [
-            _c("MatrixInput", {
-              attrs: { name: "second_matrix" },
-              on: { matricesUpdated: _vm.updateMatrices }
-            })
-          ],
-          1
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-primary btn-block",
-            on: { click: _vm.calculate }
-          },
-          [_vm._v("Multiply Matrices")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row mt-5" }, [
-        _vm.errorBag.length
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "div",
+            { staticClass: "col-sm col-md mb-2 p-0" },
+            [
+              _c("MatrixInput", {
+                attrs: { name: "first matrix" },
+                on: { matricesUpdated: _vm.updateMatrices }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "col-sm col-md mb-2 p-0" },
+            [
+              _c("MatrixInput", {
+                attrs: { name: "second_matrix" },
+                on: { matricesUpdated: _vm.updateMatrices }
+              })
+            ],
+            1
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row" }, [
+          _c(
+            "button",
+            {
+              staticClass: "btn btn-primary btn-block",
+              on: { click: _vm.calculate }
+            },
+            [_vm._v("Multiply Matrices")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "row mt-5" }, [
+          _vm.errorBag.length
+            ? _c(
+                "div",
+                { staticClass: "col-md-6 col-sm-12" },
+                _vm._l(_vm.errorBag, function(error) {
+                  return _c(
+                    "div",
+                    {
+                      staticClass:
+                        "alert alert-danger alert-dismissible fade show"
+                    },
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(error) +
+                          "\n                "
+                      )
+                    ]
+                  )
+                }),
+                0
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.resultMatrix.length
+            ? _c(
+                "div",
+                { staticClass: "col-md-6 col-sm-12" },
+                [
+                  _c("Matrix", {
+                    attrs: { matrix: _vm.resultMatrix, name: "result matrix" }
+                  })
+                ],
+                1
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _vm.loading
           ? _c(
               "div",
-              { staticClass: "col-md-6 col-sm-12" },
-              _vm._l(_vm.errorBag, function(error) {
-                return _c(
-                  "div",
-                  {
-                    staticClass:
-                      "alert alert-danger alert-dismissible fade show"
-                  },
-                  [
-                    _vm._v(
-                      "\n                    " +
-                        _vm._s(error) +
-                        "\n                "
-                    )
-                  ]
-                )
-              }),
-              0
-            )
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.resultMatrix.length
-          ? _c(
-              "div",
-              { staticClass: "col-md-6 col-sm-12" },
-              [
-                _c("Matrix", {
-                  attrs: { matrix: _vm.resultMatrix, name: "result matrix" }
-                })
-              ],
-              1
+              {
+                staticClass:
+                  "loading-modal w-100 h-100 d-flex justify-content-center align-items-center"
+              },
+              [_vm._m(1)]
             )
           : _vm._e()
-      ])
-    ])
+      ]
+    )
   ])
 }
 var staticRenderFns = [
@@ -21766,6 +21857,16 @@ var staticRenderFns = [
     return _c("div", { staticClass: "row" }, [
       _c("h1", [_vm._v("Matrix Multiplier")])
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "spinner-border text-warning", attrs: { role: "status" } },
+      [_c("span", { staticClass: "sr-only" }, [_vm._v("Loading...")])]
+    )
   }
 ]
 render._withStripped = true
@@ -37096,6 +37197,7 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.headers.common['Content-Type'] = 'application/json';
 window.axios.defaults.headers.common['Accept'] = 'application/json';
+window.axios.defaults.baseURL = "http://localhost/api/v1";
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -37313,7 +37415,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _MatrixMultiplication_vue_vue_type_template_id_5fd26874___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./MatrixMultiplication.vue?vue&type=template&id=5fd26874& */ "./resources/js/views/MatrixMultiplication.vue?vue&type=template&id=5fd26874&");
 /* harmony import */ var _MatrixMultiplication_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MatrixMultiplication.vue?vue&type=script&lang=js& */ "./resources/js/views/MatrixMultiplication.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _MatrixMultiplication_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./MatrixMultiplication.vue?vue&type=style&index=0&lang=css& */ "./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -37321,7 +37425,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _MatrixMultiplication_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _MatrixMultiplication_vue_vue_type_template_id_5fd26874___WEBPACK_IMPORTED_MODULE_0__["render"],
   _MatrixMultiplication_vue_vue_type_template_id_5fd26874___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -37350,6 +37454,22 @@ component.options.__file = "resources/js/views/MatrixMultiplication.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiplication_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./MatrixMultiplication.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/MatrixMultiplication.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiplication_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css&":
+/*!**************************************************************************************!*\
+  !*** ./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css& ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiplication_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./MatrixMultiplication.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/views/MatrixMultiplication.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiplication_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiplication_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiplication_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_MatrixMultiplication_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
 
 /***/ }),
 
