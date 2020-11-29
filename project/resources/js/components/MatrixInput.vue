@@ -1,32 +1,32 @@
 <template>
     <div class="matrix">
         <div class="card">
-            <div class="card-header bg-primary text-white">{{ cardTitle }} ({{dimensionsPrint}})</div>
+            <div class="card-header bg-primary text-white">{{ cardTitle }} ({{ dimensionsPrint }})</div>
             <div class="card-body dimension-controller">
                 <div class="row d-flex align-content-start d-inline-flex">
                     <div class="flex-column">
                         <h5>Rows</h5>
-                        <input type="number" min="1" max="10" v-model="dimensions.rows">
+                        <input type="number" @blur="checkDimension" min="1" max="10" v-model="dimensions.rows">
                     </div>
                     <div class="flex-column">
                         <h5>Cols</h5>
-                        <input type="number" min="1" max="10" v-model="dimensions.cols">
+                        <input type="number" @blur="checkDimension" min="1" max="10" v-model="dimensions.cols">
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col">
-                        <button class="btn btn-primary" v-on:click="fillWith(() => { return 0; })">0</button>
+                        <button class="btn btn-primary" @click="fillWith(() => { return 0; })">0</button>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" v-on:click="fillWith(() => { return 1; })">1</button>
+                        <button class="btn btn-primary" @click="fillWith(() => { return 1; })">1</button>
                     </div>
                     <div class="col">
                         <button class="btn btn-primary"
-                                v-on:click="fillWith(() => { return Math.floor(Math.random() * 20); })">Random
+                                @click="fillWith(() => { return Math.floor(Math.random() * 20); })">Random
                         </button>
                     </div>
                     <div class="col">
-                        <button class="btn btn-primary" v-on:click="fillWith(() => '')">Clear</button>
+                        <button class="btn btn-primary" @click="fillWith(() => '')">Clear</button>
                     </div>
                 </div>
             </div>
@@ -95,6 +95,16 @@ export default {
         fillWith(callback) {
             this.calculateMatrix(callback);
         },
+        checkDimension() {
+            console.log('blur triggered');
+            if (this.dimensions.rows < 1) {
+                this.dimensions.rows = 1;
+            }
+
+            if (this.dimensions.cols < 1) {
+                this.dimensions.cols = 1;
+            }
+        }
     },
     computed: {
         cardTitle() {
@@ -106,14 +116,13 @@ export default {
         dimensionsPrint() {
             return `${this.dimensions.rows}x${this.dimensions.cols}`;
         }
-
     },
     watch: {
         matrix() {
             this.$emit('matricesUpdated', _.snakeCase(this.name), this.matrix);
         },
         dimensions: {
-            handler() {
+            handler(dimensions) {
                 this.calculateMatrix();
             },
             deep: true
