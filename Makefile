@@ -1,6 +1,11 @@
 COMPOSE=docker-compose -f ./docker-configs/docker-compose.yml
 
-project: laravel-dep node-dep build-front up test
+TEST_FILTER=
+ifdef filter
+	TEST_FILTER = --filter $(filter)
+endif
+
+project: laravel-dep node-dep front-production up test
 
 laravel-dep:
 	cp project/.env.example project/.env
@@ -13,12 +18,12 @@ up:
 	$(COMPOSE) up -d $(c)
 
 test:
-	$(COMPOSE) run --rm tests
+	$(COMPOSE) run --rm tests $(TEST_FILTER)
 
-develop-front:
+front-dev:
 	$(COMPOSE) run --rm npm run watch
 
-build-front:
+front-production:
 	$(COMPOSE) run --rm npm run prod
 
 down:
