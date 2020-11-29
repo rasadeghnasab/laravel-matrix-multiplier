@@ -30,6 +30,14 @@ class MatrixToCharTransformerTest extends TestCase
     public function transformers_data()
     {
         return [
+            'task-sample-data' => [
+                [
+                    [1, 26, 27, 28],
+                ],
+                [
+                    ['A', 'Z', 'AA', 'AB'],
+                ]
+            ],
             'valid-transformation' => [
                 [
                     [1, 2, 3,],
