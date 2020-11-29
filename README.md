@@ -15,6 +15,9 @@ You have to have `docker` and `docker-composer` installed on your system in orde
 3. up and run the whole project
     - `make project`
 
+4. open the link below in your browser
+    - [http://localhost](http://localhost)
+
 ---
 # Useful make commands
 
