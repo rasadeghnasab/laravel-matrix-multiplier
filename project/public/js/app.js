@@ -1946,34 +1946,16 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
-  methods: {
-    draw: function draw(callback) {
-      var matrix = [];
-
-      for (var i = 0; i < this.dimensions.rows; i++) {
-        var row = [];
-
-        for (var j = 0; j < this.dimensions.cols; j++) {
-          row[j] = typeof callback !== 'undefined' ? callback(this.getMatrixItem(i, j)) : this.getMatrixItem(i, j);
-        }
-
-        matrix[i] = row;
-      }
-
-      this.matrix = matrix;
-    }
-  },
   computed: {
     cardTitle: function cardTitle() {
       return _.startCase(this.name);
     },
-    dimensions: function dimensions() {
+    dimensionsPrint: function dimensionsPrint() {
       var rows = this.matrix.length;
       var cols = this.matrix[0].length || 0;
       return "".concat(rows, "x").concat(cols);
     }
-  },
-  watch: {}
+  }
 });
 
 /***/ }),
@@ -2088,12 +2070,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     fillWith: function fillWith(callback) {
       this.calculateMatrix(callback);
-    },
-    dimensionsCheck: function dimensionsCheck() {// this.dimensions.rows = _.isEmpty(this.dimensions.rows) || this.dimensions.rows < 1 ? 1 :
-      //     this.dimensions.rows > 10 ? 10 : this.dimensions.rows;
-      //
-      // this.dimensions.cols = _.isEmpty(this.dimensions.cols) || this.dimensions.cols < 1 ? 1 :
-      //     this.dimensions.cols > 10 ? 10 : this.dimensions.cols;
     }
   },
   computed: {
@@ -2102,6 +2078,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     cellDefaultValue: function cellDefaultValue() {
       return '';
+    },
+    dimensionsPrint: function dimensionsPrint() {
+      return "".concat(this.dimensions.rows, "x").concat(this.dimensions.cols);
     }
   },
   watch: {
@@ -2110,7 +2089,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     dimensions: {
       handler: function handler() {
-        this.dimensionsCheck();
         this.calculateMatrix();
       },
       deep: true
@@ -2347,7 +2325,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n.matrix-cell input {\n    min-width: 40px;\n    max-width: 40px;\n    min-height: 40px;\n    max-height: 40px;\n}\n\n/* Chrome, Safari, Edge, Opera */\n.matrix-cell input::-webkit-outer-spin-button,\n.matrix-cell input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n}\n\n/* Firefox */\n.matrix-cell input[type=number] {\n    -moz-appearance: textfield;\n}\n.paren {\n    display: inline-block;\n    padding: 0 .1em;\n    vertical-align: bottom;\n    -webkit-transform-origin: bottom;\n    -moz-transform-origin: bottom;\n    -ms-transform-origin: bottom;\n    -o-transform-origin: bottom;\n    transform-origin: bottom;\n}\n.dimension-controller input {\n    max-width: 80px;\n    max-height: 50px;\n    font-size: 18px;\n}\n.dimension-controller > .row > div {\n    padding: 0 10px;\n}\n", ""]);
+exports.push([module.i, "\n.matrix-cell input {\n    min-width: 40px;\n    max-width: 40px;\n    min-height: 40px;\n    max-height: 40px;\n}\n\n/* Chrome, Safari, Edge, Opera */\n.matrix-cell input::-webkit-outer-spin-button,\n.matrix-cell input::-webkit-inner-spin-button {\n    -webkit-appearance: none;\n    margin: 0;\n}\n\n/* Firefox */\n.matrix-cell input[type=number] {\n    -moz-appearance: textfield;\n}\n.dimension-controller input {\n    max-width: 80px;\n    max-height: 50px;\n    font-size: 18px;\n}\n.dimension-controller > .row > div {\n    padding: 0 10px;\n}\n", ""]);
 
 // exports
 
@@ -21439,7 +21417,7 @@ var render = function() {
   return _c("div", { staticClass: "matrix" }, [
     _c("div", { staticClass: "card" }, [
       _c("div", { staticClass: "card-header bg-success text-white" }, [
-        _vm._v(_vm._s(_vm.cardTitle) + " (" + _vm._s(_vm.dimensions) + ")")
+        _vm._v(_vm._s(_vm.cardTitle) + " (" + _vm._s(_vm.dimensionsPrint) + ")")
       ]),
       _vm._v(" "),
       _c("table", { staticClass: "table table-bordered" }, [
@@ -21486,8 +21464,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "matrix" }, [
     _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header bg-primary mb-3 text-white" }, [
-        _vm._v(" " + _vm._s(_vm.cardTitle))
+      _c("div", { staticClass: "card-header bg-primary text-white" }, [
+        _vm._v(_vm._s(_vm.cardTitle) + " (" + _vm._s(_vm.dimensionsPrint) + ")")
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "card-body dimension-controller" }, [

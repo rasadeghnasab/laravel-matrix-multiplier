@@ -1,7 +1,7 @@
 <template>
     <div class="matrix">
         <div class="card">
-            <div class="card-header bg-primary mb-3 text-white"> {{ cardTitle }}</div>
+            <div class="card-header bg-primary text-white">{{ cardTitle }} ({{dimensionsPrint}})</div>
             <div class="card-body dimension-controller">
                 <div class="row d-flex align-content-start d-inline-flex">
                     <div class="flex-column">
@@ -95,13 +95,6 @@ export default {
         fillWith(callback) {
             this.calculateMatrix(callback);
         },
-        dimensionsCheck() {
-            // this.dimensions.rows = _.isEmpty(this.dimensions.rows) || this.dimensions.rows < 1 ? 1 :
-            //     this.dimensions.rows > 10 ? 10 : this.dimensions.rows;
-            //
-            // this.dimensions.cols = _.isEmpty(this.dimensions.cols) || this.dimensions.cols < 1 ? 1 :
-            //     this.dimensions.cols > 10 ? 10 : this.dimensions.cols;
-        }
     },
     computed: {
         cardTitle() {
@@ -109,6 +102,9 @@ export default {
         },
         cellDefaultValue() {
             return '';
+        },
+        dimensionsPrint() {
+            return `${this.dimensions.rows}x${this.dimensions.cols}`;
         }
 
     },
@@ -118,7 +114,6 @@ export default {
         },
         dimensions: {
             handler() {
-                this.dimensionsCheck();
                 this.calculateMatrix();
             },
             deep: true
@@ -146,17 +141,6 @@ export default {
 /* Firefox */
 .matrix-cell input[type=number] {
     -moz-appearance: textfield;
-}
-
-.paren {
-    display: inline-block;
-    padding: 0 .1em;
-    vertical-align: bottom;
-    -webkit-transform-origin: bottom;
-    -moz-transform-origin: bottom;
-    -ms-transform-origin: bottom;
-    -o-transform-origin: bottom;
-    transform-origin: bottom;
 }
 
 .dimension-controller input {
