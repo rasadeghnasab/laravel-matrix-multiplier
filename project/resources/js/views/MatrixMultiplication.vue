@@ -57,8 +57,8 @@ export default {
             this.matrices[name] = value;
         },
         validate() {
-            // Note: I don't a write front-end validator,
-            // so that you can fill free to send non-validated requests to the server
+            // Note: I don't write a front-end validator,
+            // so that you can fill free to send non-validated requests to the server.
         },
         async calculate() {
             if (this.loading) {
