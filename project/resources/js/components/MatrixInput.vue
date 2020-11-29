@@ -96,13 +96,16 @@ export default {
             this.calculateMatrix(callback);
         },
         checkDimension() {
-            console.log('blur triggered');
             if (this.dimensions.rows < 1) {
                 this.dimensions.rows = 1;
+            } else if (this.dimensions.rows >= 10) {
+                this.dimensions.rows = 10;
             }
 
             if (this.dimensions.cols < 1) {
                 this.dimensions.cols = 1;
+            } else if (this.dimensions.cols >= 10) {
+                this.dimensions.cols = 10;
             }
         }
     },
