@@ -22,16 +22,16 @@ class MatrixCharTransformer implements MatrixTransformerInterface
     private static function toChar(int &$number): void
     {
         $number = $number - 1;
-        $ordA = ord('A');
-        $ordZ = ord('Z');
+        $order_a = ord('A');
+        $order_z = ord('Z');
 
-        $len = $ordZ - $ordA + 1;
+        $length = $order_z - $order_a + 1;
         $output = "";
         while ($number >= 0) {
-            $output = chr($number % $len + $ordA) . $output;
-            $number = floor($number / $len) - 1;
+            $output = chr($number % $length + $order_a) . $output;
+            $number = floor($number / $length) - 1;
         }
 
-        $number = $output;
+        $number = empty($output) ? 'non' : $output;
     }
 }
