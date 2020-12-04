@@ -8,7 +8,7 @@ use App\Classes\ValidMatrix;
 use App\Exceptions\ImpossibleMatrixMultiplyException;
 use App\Exceptions\InvalidMatrixException;
 use App\Interfaces\MatrixInterface;
-use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
 
 class MatrixMultiplierTest extends TestCase
 {
@@ -26,7 +26,7 @@ class MatrixMultiplierTest extends TestCase
         $m1 = new Matrix(new ValidMatrix($m1));
         $m2 = new Matrix(new ValidMatrix($m2));
 
-        $result = (new MatrixMultiplier(Matrix::class))->calculate($m1, $m2);
+        $result = $this->app->make(MatrixMultiplier::class)->calculate($m1, $m2);
 
         $this->assertInstanceOf(MatrixInterface::class, $result);
         $this->assertEqualsCanonicalizing($expected, $result->toArray());
@@ -51,7 +51,7 @@ class MatrixMultiplierTest extends TestCase
             [1, 1],
         ]));
 
-        (new MatrixMultiplier(Matrix::class))->calculate($m1, $m2);
+        $this->app->make(MatrixMultiplier::class)->calculate($m1, $m2);
     }
 
     /**
