@@ -4,15 +4,19 @@ namespace App\Classes\MatrixOperators;
 
 use App\Classes\ValidMatrix;
 use App\Exceptions\ImpossibleMatrixMultiplyException;
-use App\Interfaces\{MatrixInterface, MatrixOperatorInterface};
+use App\Interfaces\{MatrixCreatorInterface, MatrixInterface, MatrixOperatorInterface};
 
 class MatrixMultiplier implements MatrixOperatorInterface
 {
-    private string $matrixInterface;
+    private MatrixCreatorInterface $result_matrix;
 
-    public function __construct(string $matrixInterface)
+    /**
+     * MatrixMultiplier constructor.
+     * @param MatrixCreatorInterface $result_matrix
+     */
+    public function __construct(MatrixCreatorInterface $result_matrix)
     {
-        $this->matrixInterface = $matrixInterface;
+        $this->result_matrix = $result_matrix;
     }
 
     /**
@@ -33,7 +37,7 @@ class MatrixMultiplier implements MatrixOperatorInterface
             }
         }
 
-        return new $this->matrixInterface(new ValidMatrix($result));
+        return $this->result_matrix->update(new ValidMatrix($result));
     }
 
     private function operationCanPerform(MatrixInterface $m1, MatrixInterface $m2): void
