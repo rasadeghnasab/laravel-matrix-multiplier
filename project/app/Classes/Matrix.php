@@ -2,10 +2,11 @@
 
 namespace App\Classes;
 
+use App\Interfaces\MatrixCreatorInterface;
 use App\Interfaces\MatrixInterface;
 use Exception;
 
-class Matrix implements MatrixInterface
+class Matrix implements MatrixInterface, MatrixCreatorInterface
 {
     /**
      * @var array
