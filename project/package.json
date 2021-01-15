@@ -11,7 +11,7 @@
         "compress": "bread-compressor -s public/css/*.css public/js/*.js"
     },
     "devDependencies": {
-        "axios": "^0.19",
+        "axios": "^0.21",
         "bread-compressor-cli": "^1.1.0",
         "cross-env": "^7.0",
         "laravel-mix": "^5.0.1",
