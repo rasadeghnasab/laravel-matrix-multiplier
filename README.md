@@ -1,4 +1,6 @@
-About YOU technical test:
+# Matrix multiplication API:
+
+A matrix multiplication API by Laravel and Vuejs you can easily add other functionalities by extending Matrix and some other interfaces and expose them by the API.
 
 # Prerequisites
 
@@ -7,10 +9,10 @@ You have to have `docker` and `docker-composer` installed on your system in orde
 ---
 # Up and Running
 1. clone the repository
-    - `git clone git@gitlab.com:rasadeghnasab/about_you_test`
+    - `git clone git@gitlab.com:rasadeghnasab/laravel-matrix-multiplier`
 
 2. cd to the repository directory
-    - `cd about_you_test`
+    - `cd laravel-matrix-multiplier`
     
 3. up and run the whole project
     - `make project`
@@ -32,7 +34,7 @@ Here we listed some useful commands that you can use to develop the application:
 - Run all the necessary containers to make project work and accessible through a URI and PORT
     - `make up`
     
-- Stop all the containers and free resources and ports
+- Stop all the containers and free resources andabout_you_test ports
     - `make down`
 
 ### Back-end commands
